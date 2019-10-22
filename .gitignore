@@ -1,0 +1,8 @@
+*.layout
+*.cbp
+.vscode
+bin
+obj
+tdl
+run.bat
+deploy
