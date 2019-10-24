@@ -28,6 +28,7 @@ struct Action
     char name[MAX_JSON_ARTICLE];
     char url[MAX_JSON_ARTICLE];
     OptionList *option;
+    Action *next;
 };
 
 struct ActionList
@@ -55,6 +56,7 @@ struct Tache
     int hour;
     int minute;
     int seconde;
+    Tache *next;
 };
 
 struct TacheList

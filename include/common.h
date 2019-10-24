@@ -16,6 +16,9 @@
 #include "json.h"
 #include "scan.h"
 #include "const.h"
+#include "action.h"
+#include "tache.h"
+#include "option.h"
 #include "curl/curl.h"
 #include <stdbool.h>
 
