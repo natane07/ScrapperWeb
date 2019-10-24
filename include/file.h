@@ -18,11 +18,11 @@
 //PATHS
 #define LOCALSTORAGE "APPDATA"
 #define MAIN_DIR "scrapperWeb"
-#define CONFIG_FILE "scrapperWeb\\scrapperWeb.cfg"
+#define CONFIG_FILE "scrapperWeb\\scrapperWeb.sconf"
 
 void initFs(AppData *);
 void initFolders(char *);
-void initConfigFile(char *, List *, AppData *);
+void initConfigFile(char *, List *);
 int fileExists(char *, char *);
 FILE *openFile(char *, char *, char *);
 void applySettings(List *, AppData *);

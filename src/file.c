@@ -11,7 +11,7 @@ void initFs(AppData *appData)
     List *settings = listInit();
     sprintf(path, "%s", getenv(LOCALSTORAGE));
     initFolders(path);
-    initConfigFile(path, settings, appData);
+    initConfigFile(path, settings);
     applySettings(settings, appData);
     destroyList(settings);
 }
@@ -23,7 +23,7 @@ void initFolders(char *path)
     CreateDirectory(dirLocation, NULL);
 }
 
-void initConfigFile(char *path, List *settings, AppData *appData)
+void initConfigFile(char *path, List *settings)
 {
     FILE *config = NULL;
     if (fileExists(path, CONFIG_FILE) == 1)
@@ -34,14 +34,14 @@ void initConfigFile(char *path, List *settings, AppData *appData)
             getFileContent(settings, MAX_SETTING_LENGTH, MIN_SETTING_LENGTH, config);
         }
     }
-    else
+    /*else
     {
         config = openFile(path, CONFIG_FILE, "w");
         if (config != NULL)
         {
             printConfigFile(config, NULL);
         }
-    }
+    }*/
 }
 
 int fileExists(char *basePath, char *filePath)

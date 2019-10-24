@@ -6,7 +6,7 @@
 
 //files
 #define MAX_SETTING_LENGTH 256
-#define MIN_SETTING_LENGTH 2
+#define MIN_SETTING_LENGTH 0
 #define MAX_PATH_LENGTH MAX_PATH
 
 //json
