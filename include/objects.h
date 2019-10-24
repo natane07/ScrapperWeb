@@ -20,6 +20,7 @@ typedef struct Tache Tache;
 typedef struct OptionList OptionList;
 typedef struct ActionList ActionList;
 typedef struct TacheList TacheList;
+typedef struct FileConfig FileConfig;
 
 
 struct Action
@@ -67,6 +68,13 @@ struct FileConfig
     ActionList *actions;
     TacheList *taches;
 };
+
+typedef enum {
+    ACTION,
+    OPTION,
+    TACHE,
+    TACHE_OPTION
+}TYPE_MODE_FILE;
 
 //---------
 

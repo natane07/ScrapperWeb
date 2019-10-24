@@ -102,6 +102,26 @@ void applySetting(char *content, void *data)
         }
     }
 }
+void removeChar(char *str, char garbage) {
+
+    char *src, *dst;
+    for (src = dst = str; *src != '\0'; src++) {
+        *dst = *src;
+        if (*dst != garbage) dst++;
+    }
+    *dst = '\0';
+}
+
+void removeSpaces(char *str) 
+{ 
+    int count = 0; 
+
+    for (int i = 0; str[i]; i++){
+        if (str[i] != ' ') 
+            str[count++] = str[i];
+    }
+    str[count] = '\0'; 
+}
 
 void getFileContent(List *storage, int bufferSize, int minLength, FILE *fp)
 {
@@ -111,8 +131,12 @@ void getFileContent(List *storage, int bufferSize, int minLength, FILE *fp)
     while (fgets(buffer, bufferSize, fp) != NULL)
     {
         remCrlf(buffer);
-        if (strlen(buffer) > minLength)
+        if (strlen(buffer) > minLength){
+            removeChar(buffer, '{');
+            removeChar(buffer, '}');
+            removeSpaces(buffer);
             push(storage, buffer);
+        }
     }
     fclose(fp);
     free(buffer);

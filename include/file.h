@@ -30,5 +30,7 @@ void applySetting(char *, void *);
 void getFileContent(List *, int, int, FILE *);
 void saveConfigToFile(AppData *appData);
 void printConfigFile(FILE *, AppData *);
+void removeChar(char *, char);
+void removeSpaces(char *);
 
 #endif

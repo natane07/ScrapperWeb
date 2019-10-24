@@ -7,5 +7,6 @@
 int parseIni(char *, char *, char *);
 void printIniToFile(FILE *, char *, char *);
 void printIniToString(char *, char *, char *);
+bool isSymbole(char *, char *);
 
 #endif
