@@ -14,6 +14,13 @@ void parseStringConfig(char * content, char *key, char *value){
     }
 }
 
+void setFileConfig(FileConfig *fileConfig)
+{
+    fileConfig->actions = makeActionList();
+    fileConfig->taches = STR_NULL;
+    //fileConfig->taches = makeTacheList();
+}
+
 int main()
 {
     char path[MAX_PATH_LENGTH];
@@ -26,7 +33,8 @@ int main()
         exit(-1);
 
     static FileConfig fileConfig;
-    fileConfig.actions->first->option->first->next;
+    setFileConfig(&fileConfig);
+
     Element *current = settings->first;
     int ok;
     TYPE_MODE_FILE typeModeFile = ACTION;

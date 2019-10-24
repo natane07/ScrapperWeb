@@ -127,7 +127,7 @@ void printOptionList(OptionList *list)
     {
         puts("Option {");
         printf("optionId: %s\n", current->optionId);
-        printf("valueOption: %d\n", current->valueOption);
+        printf("valueOption: %s\n", current->valueOption);
         current = current->next;
         puts("}");
     }
