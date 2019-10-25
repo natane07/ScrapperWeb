@@ -17,8 +17,7 @@ void parseStringConfig(char * content, char *key, char *value){
 void setFileConfig(FileConfig *fileConfig)
 {
     fileConfig->actions = makeActionList();
-    fileConfig->taches = STR_NULL;
-    //fileConfig->taches = makeTacheList();
+    fileConfig->taches = makeTacheList();
 }
 
 int main()
@@ -47,16 +46,21 @@ int main()
         }
         else if (isSymbole(current->content, "+"))
         {
-            typeModeFile = OPTION;
+            typeModeFile = typeModeFile == ACTION ? OPTION : TACHE_OPTION;
         }
         else {
             switch (typeModeFile)
             {
             case ACTION:
-                ok = parseIni(current->content, key, value);
+                char nameAction[MAX_SETTING_LENGTH];
+                char urlAction[3000];
+                ok = parseIni(current->content, key, nameAction);
+                current = current->next;
+                ok = parseIni(current->content, key, urlAction);
                 if(ok){
-                    printf("Key:%s\n", key);
-                    printf("Value:%s\n", value);
+                    //pushActionToList(fileConfig.actions, nameAction, urlAction, );
+                    printf("Key:%s\n", nameAction);
+                    printf("Value:%s\n", urlAction);
                 }
                 break;
             case OPTION:
