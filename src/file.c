@@ -112,6 +112,14 @@ void removeChar(char *str, char garbage) {
     *dst = '\0';
 }
 
+void removeComment(char *str, char garbage){
+    char *ptr;
+    ptr = strchr(str, garbage);
+    if (ptr != NULL) {
+        *ptr = '\0';
+    }
+}
+
 void removeSpaces(char *str) 
 { 
     int count = 0; 
@@ -132,6 +140,7 @@ void getFileContent(List *storage, int bufferSize, int minLength, FILE *fp)
     {
         remCrlf(buffer);
         if (strlen(buffer) > minLength){
+            removeComment(buffer, '#');
             removeChar(buffer, '{');
             removeChar(buffer, '}');
             removeSpaces(buffer);

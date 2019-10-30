@@ -13,7 +13,8 @@ ActionList *makeActionList()
     return list;
 }
 
-void pushActionToList(ActionList *list, char *action, char *url, OptionList *optionList)
+
+void pushActionToList(ActionList *list, char *action, char *url)
 {
     Action *new = malloc(sizeof(Action));
     if (action == NULL || url == NULL || list == NULL)
@@ -22,7 +23,7 @@ void pushActionToList(ActionList *list, char *action, char *url, OptionList *opt
     }
     strcpy(new->name, action);
     strcpy(new->url, url);
-    new->option = optionList;
+    new->option = makeOptionList();
     new->next = NULL;
     if (list->length > 0)
     {
@@ -127,12 +128,24 @@ void printActionList(ActionList *list)
     while (current != NULL)
     {
         puts("Action {");
-        printf("content: %s\n", current->name);
-        printf("amount: %s\n", current->url);
+        printf("name: %s\n", current->name);
+        printf("url: %s\n", current->url);
         printOptionList(current->option);
         current = current->next;
         puts("}");
     }
     printf("List length: %d\n", list->length);
     puts("};");
+}
+
+void pushOptionListToAction(ActionList *list, char *optionId, char *valueOption){
+    if (list == NULL)
+    {
+        exit(-1);
+    }
+    Action *current = list->first;
+    while (current->next!= NULL){
+        current = current->next;
+    }
+    pushOptionToList(current->option, optionId, valueOption);
 }

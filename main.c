@@ -39,6 +39,8 @@ int main()
     TYPE_MODE_FILE typeModeFile = ACTION;
     char key[MAX_SETTING_LENGTH];
     char value[MAX_SETTING_LENGTH];
+    char nameAction[MAX_SETTING_LENGTH];
+    char urlAction[3000];
     while (current != NULL)
     {
         if(isSymbole(current->content, "=")){
@@ -52,22 +54,21 @@ int main()
             switch (typeModeFile)
             {
             case ACTION:
-                char nameAction[MAX_SETTING_LENGTH];
-                char urlAction[3000];
                 ok = parseIni(current->content, key, nameAction);
                 current = current->next;
                 ok = parseIni(current->content, key, urlAction);
                 if(ok){
-                    //pushActionToList(fileConfig.actions, nameAction, urlAction, );
-                    printf("Key:%s\n", nameAction);
-                    printf("Value:%s\n", urlAction);
+                    pushActionToList(fileConfig.actions, nameAction, urlAction);
+                    //printf("Key:%s\n", nameAction);
+                    //printf("Value:%s\n", urlAction);
                 }
                 break;
             case OPTION:
                 ok = parseIni(current->content, key, value);
                 if(ok){
-                    printf("Key:%s\n", key);
-                    printf("Value:%s\n", value);
+                    pushOptionListToAction(fileConfig.actions, key, value);
+                    //printf("Key:%s\n", key);
+                    //printf("Value:%s\n", value);
                 }
                 break;
             case TACHE:
@@ -76,8 +77,8 @@ int main()
                 break;
             }
         }
-        //printElement(current->content);
         current = current->next;
     }
+    printActionList(fileConfig.actions);
     return 0;
 }
