@@ -56,6 +56,7 @@ struct Tache
     int hour;
     int minute;
     int seconde;
+    OptionList *option;
     Tache *next;
 };
 
