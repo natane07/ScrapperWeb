@@ -129,9 +129,9 @@ void printTacheList(TacheList *list)
     {
         puts("Tache {");
         printf("name: %s\n", current->name);
-        printf("amount: %d\n", current->hour);
-        printf("amount: %d\n", current->minute);
-        printf("amount: %d\n", current->seconde);
+        printf("hour: %d\n", current->hour);
+        printf("minute: %d\n", current->minute);
+        printf("seconde: %d\n", current->seconde);
         current = current->next;
         puts("}");
     }

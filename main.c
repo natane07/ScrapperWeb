@@ -40,15 +40,24 @@ int main()
     char key[MAX_SETTING_LENGTH];
     char value[MAX_SETTING_LENGTH];
     char nameAction[MAX_SETTING_LENGTH];
+    char nameTache[MAX_SETTING_LENGTH];
     char urlAction[3000];
+    int sec =0;
+    int min =0;
+    int hour = 0;
     while (current != NULL)
     {
+        printf("Current Element:%s \n", current->content);
         if(isSymbole(current->content, "=")){
             typeModeFile = ACTION;
         }
         else if (isSymbole(current->content, "+"))
         {
             typeModeFile = typeModeFile == ACTION ? OPTION : TACHE_OPTION;
+        }
+        else if (isSymbole(current->content, "=="))
+        {
+            typeModeFile = TACHE;
         }
         else {
             switch (typeModeFile)
@@ -72,13 +81,40 @@ int main()
                 }
                 break;
             case TACHE:
+                while(!isSymbole(current->content, "+")){
+                    ok = parseIni(current->content, key, value);
+                    if(isSymbole(key, "name")){
+                        parseIni(current->content, key, nameTache);
+                    }
+                    else if(isSymbole(key, "hour")){
+                        parseIni(current->content, key, value);
+                        hour = atoi(value);
+                    }
+                    else if(isSymbole(key, "minute")){
+                        parseIni(current->content, key, value);
+                        min = atoi(value);
+                    }
+                    else if(isSymbole(key, "second")){
+                        parseIni(current->content, key, value);
+                        sec = atoi(value);
+                    }
+                    current = current->next;
+                }
+                pushTacheToList(fileConfig.taches, nameTache, hour, min, sec);
+                continue;
+            case TACHE_OPTION:
+                printf("Element TACHE_OPTION:%s \n", current->content);
                 break;
             default:
                 break;
             }
         }
+        printf("typeModeFile: %d\n",typeModeFile);
         current = current->next;
     }
+    printf("\n\n");
     printActionList(fileConfig.actions);
+    printf("\n\n");
+    printTacheList(fileConfig.taches);
     return 0;
 }

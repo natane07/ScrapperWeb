@@ -267,7 +267,7 @@ void writeListToFile(List *list, FILE *fp)
 void printElement(char *content)
 {
     printf("%s", content);
-    printf(" -> ");
+    printf(" <-> ");
 }
 
 Element *getElement(List *list, int index)
