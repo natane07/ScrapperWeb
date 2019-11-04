@@ -138,3 +138,15 @@ void printTacheList(TacheList *list)
     printf("List length: %d\n", list->length);
     puts("};");
 }
+
+void pushPlanificateurListToTache(TacheList *list, char *valuePlanificateur){
+    if (list == NULL)
+    {
+        exit(-1);
+    }
+    Tache *current = list->first;
+    while (current->next!= NULL){
+        current = current->next;
+    }
+    pushPlanificateurToList(current->planificateurList, valuePlanificateur);
+}

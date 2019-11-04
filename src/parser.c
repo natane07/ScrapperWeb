@@ -16,6 +16,18 @@ int parseIni(char *content, char *key, char *value)
     return 1;
 }
 
+void parsePlanificateur(char *content){
+    removeChar(content, '(');
+    removeChar(content, ')'); 
+    char *token = strtok(content, ",");
+
+    while (token != NULL) 
+    { 
+        printf("%s\n", token); 
+        token = strtok(NULL, "-"); 
+    } 
+}
+
 void printIniToFile(FILE *file, char *key, char *value)
 {
     fprintf(file, "%s=%s\n", key, value);

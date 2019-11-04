@@ -1,9 +1,9 @@
 #include <windows.h>
 #include "common.h"
 
-OptionList *makeOptionList()
+PlanificateurList *makePlanificateurList()
 {
-    OptionList *list = malloc(sizeof(OptionList));
+    PlanificateurList *list = malloc(sizeof(PlanificateurList));
     if (list == NULL)
     {
         exit(-1);
@@ -13,20 +13,19 @@ OptionList *makeOptionList()
     return list;
 }
 
-void pushOptionToList(OptionList *list, char *optionId, char *valueOption)
+void pushPlanificateurToList(PlanificateurList *list, char *nameTache)
 {
-    Option *new = malloc(sizeof(Option));
+    Planificateur *new = malloc(sizeof(Planificateur));
     if (optionId == NULL || list == NULL)
     {
         exit(-1);
     }
-    strcpy(new->optionId, optionId);
-    strcpy(new->valueOption, valueOption);
+    strcpy(new->nameTache, nameTache);
     new->next = NULL;
     if (list->length > 0)
     {
-        Option *last;
-        last = getOptionInList(list, list->length - 1);
+        Planificateur *last;
+        last = getPlanificateurInList(list, list->length - 1);
         last->next = new;
     }
     else
@@ -36,14 +35,14 @@ void pushOptionToList(OptionList *list, char *optionId, char *valueOption)
     list->length++;
 }
 
-Option *getOptionInList(OptionList *list, size_t index)
+Planificateur *getPlanificateurInList(PlanificateurList *list, size_t index)
 {
     int i;
     if (list == NULL)
     {
         exit(-1);
     }
-    Option *current = list->first;
+    Planificateur *current = list->first;
     if (index >= list->length || index < 0)
     {
         return list->first;
@@ -55,7 +54,7 @@ Option *getOptionInList(OptionList *list, size_t index)
     return current;
 }
 
-void removeOptionInList(OptionList *list, size_t index)
+void removePlanificateurInList(PlanificateurList *list, size_t index)
 {
     if (list == NULL)
     {
@@ -67,10 +66,10 @@ void removeOptionInList(OptionList *list, size_t index)
     }
     if (index == list->length - 1)
     {
-        Option *last = getOptionInList(list, list->length - 1);
+        Planificateur *last = getPlanificateurInList(list, list->length - 1);
         if (list->length > 1)
         {
-            Option *nextToLast = getOptionInList(list, list->length - 2);
+            Planificateur *nextToLast = getPlanificateurInList(list, list->length - 2);
             nextToLast->next = NULL;
         }
         else
@@ -83,29 +82,29 @@ void removeOptionInList(OptionList *list, size_t index)
     }
     if (index == 0)
     {
-        Option *first = list->first;
-        Option *second = first->next;
+        Planificateur *first = list->first;
+        Planificateur *second = first->next;
         list->first = second;
         free(first);
         list->length--;
         return;
     }
-    Option *previous = getOptionInList(list, index - 1);
-    Option *current = previous->next;
-    Option *next = current->next;
+    Planificateur *previous = getPlanificateurInList(list, index - 1);
+    Planificateur *current = previous->next;
+    Planificateur *next = current->next;
     previous->next = next;
     free(current);
     list->length--;
 }
 
-void destroyOptionList(OptionList *list)
+void destroyPlanificateurList(PlanificateurList *list)
 {
     if (list == NULL)
     {
         exit(-1);
     }
-    Option *current = list->first;
-    Option *tmp = NULL;
+    Planificateur *current = list->first;
+    Planificateur *tmp = NULL;
     while (current != NULL)
     {
         tmp = current->next;
@@ -115,19 +114,18 @@ void destroyOptionList(OptionList *list)
     free(list);
 }
 
-void printOptionList(OptionList *list)
+void printPlanificateurList(PlanificateurList *list)
 {
     if (list == NULL)
     {
         exit(-1);
     }
-    Option *current = list->first;
-    puts("OptionList {");
+    Planificateur *current = list->first;
+    puts("PlanificateurList {");
     while (current != NULL)
     {
-        puts("Option {");
-        printf("key: %s\n", current->optionId);
-        printf("value: %s\n", current->valueOption);
+        puts("Planificateur {");
+        printf("value: %s\n", current->nameTache);
         current = current->next;
         puts("}");
     }

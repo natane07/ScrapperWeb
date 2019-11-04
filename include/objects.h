@@ -17,9 +17,11 @@ typedef struct Infos Infos;
 typedef struct Action Action;
 typedef struct Option Option;
 typedef struct Tache Tache;
+typedef struct Planificateur Planificateur;
 typedef struct OptionList OptionList;
 typedef struct ActionList ActionList;
 typedef struct TacheList TacheList;
+typedef struct PlanificateurList PlanificateurList;
 typedef struct FileConfig FileConfig;
 
 
@@ -50,12 +52,25 @@ struct OptionList
     size_t length;
 };
 
+struct Planificateur
+{
+    char nameTache[MAX_JSON_ARTICLE];
+    Planificateur *next;
+};
+
+struct PlanificateurList
+{
+    Planificateur *first;
+    size_t length;
+};
+
 struct Tache
 {
     char name[MAX_JSON_ARTICLE];
     int hour;
     int minute;
     int seconde;
+    PlanificateurList planificateurList;
     Tache *next;
 };
 

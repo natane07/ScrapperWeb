@@ -19,6 +19,7 @@
 #include "action.h"
 #include "tache.h"
 #include "option.h"
+#include "planificateur.h"
 #include "curl/curl.h"
 #include <stdbool.h>
 

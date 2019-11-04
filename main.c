@@ -68,42 +68,41 @@ int main()
                 ok = parseIni(current->content, key, urlAction);
                 if(ok){
                     pushActionToList(fileConfig.actions, nameAction, urlAction);
-                    //printf("Key:%s\n", nameAction);
-                    //printf("Value:%s\n", urlAction);
                 }
                 break;
             case OPTION:
                 ok = parseIni(current->content, key, value);
                 if(ok){
                     pushOptionListToAction(fileConfig.actions, key, value);
-                    //printf("Key:%s\n", key);
-                    //printf("Value:%s\n", value);
                 }
                 break;
             case TACHE:
                 while(!isSymbole(current->content, "+")){
                     ok = parseIni(current->content, key, value);
-                    if(isSymbole(key, "name")){
-                        parseIni(current->content, key, nameTache);
-                    }
-                    else if(isSymbole(key, "hour")){
-                        parseIni(current->content, key, value);
-                        hour = atoi(value);
-                    }
-                    else if(isSymbole(key, "minute")){
-                        parseIni(current->content, key, value);
-                        min = atoi(value);
-                    }
-                    else if(isSymbole(key, "second")){
-                        parseIni(current->content, key, value);
-                        sec = atoi(value);
+                    if(ok){
+                        if(isSymbole(key, "name")){
+                            parseIni(current->content, key, nameTache);
+                        }
+                        else if(isSymbole(key, "hour")){
+                            parseIni(current->content, key, value);
+                            hour = atoi(value);
+                        }
+                        else if(isSymbole(key, "minute")){
+                            parseIni(current->content, key, value);
+                            min = atoi(value);
+                        }
+                        else if(isSymbole(key, "second")){
+                            parseIni(current->content, key, value);
+                            sec = atoi(value);
+                        }
                     }
                     current = current->next;
                 }
                 pushTacheToList(fileConfig.taches, nameTache, hour, min, sec);
                 continue;
             case TACHE_OPTION:
-                printf("Element TACHE_OPTION:%s \n", current->content);
+                parsePlanificateur(current->content);
+                //printf("Element TACHE_OPTION:%s \n", current->content);
                 break;
             default:
                 break;
