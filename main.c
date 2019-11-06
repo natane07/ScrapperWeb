@@ -99,9 +99,10 @@ int main()
                     current = current->next;
                 }
                 pushTacheToList(fileConfig.taches, nameTache, hour, min, sec);
+                hour = min = sec = 0;
                 continue;
             case TACHE_OPTION:
-                parsePlanificateur(current->content);
+                parsePlanificateur(&fileConfig, current->content);
                 //printf("Element TACHE_OPTION:%s \n", current->content);
                 break;
             default:

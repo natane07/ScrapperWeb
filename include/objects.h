@@ -70,7 +70,7 @@ struct Tache
     int hour;
     int minute;
     int seconde;
-    PlanificateurList planificateurList;
+    PlanificateurList *planificateurList;
     Tache *next;
 };
 

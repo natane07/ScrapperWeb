@@ -10,5 +10,6 @@ Tache *getTacheInList(TacheList *list, size_t index);
 void removeTacheInList(TacheList *list, size_t index);
 void destroyTacheList(TacheList *list);
 void printTacheList(TacheList *list);
+void pushPlanificateurListToTache(TacheList *list, char *valuePlanificateur);
 
 #endif

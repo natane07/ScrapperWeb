@@ -16,7 +16,7 @@ PlanificateurList *makePlanificateurList()
 void pushPlanificateurToList(PlanificateurList *list, char *nameTache)
 {
     Planificateur *new = malloc(sizeof(Planificateur));
-    if (optionId == NULL || list == NULL)
+    if (nameTache == NULL || list == NULL)
     {
         exit(-1);
     }

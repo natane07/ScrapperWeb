@@ -24,6 +24,7 @@ void pushTacheToList(TacheList *list, char *tache, int hour, int min, int sec)
     new->hour = hour;
     new->minute = min;
     new->seconde = sec;
+    new->planificateurList = makePlanificateurList();
     new->next = NULL;
     if (list->length > 0)
     {
@@ -132,6 +133,7 @@ void printTacheList(TacheList *list)
         printf("hour: %d\n", current->hour);
         printf("minute: %d\n", current->minute);
         printf("seconde: %d\n", current->seconde);
+        printPlanificateurList(current->planificateurList);
         current = current->next;
         puts("}");
     }
