@@ -20,8 +20,10 @@
 #define MAIN_DIR "scrapperWeb"
 #define CONFIG_FILE "scrapperWeb\\scrapperWeb.sconf"
 
+
 void initFs(AppData *);
 void initFolders(char *);
+void createDir(char *);
 void initConfigFile(char *, List *);
 int fileExists(char *, char *);
 FILE *openFile(char *, char *, char *);
@@ -29,6 +31,7 @@ void applySettings(List *, AppData *);
 void applySetting(char *, void *);
 void getFileContent(List *, int, int, FILE *);
 void saveConfigToFile(AppData *appData);
+void saveHtmlToFile(char *, char *, char *);
 void printConfigFile(FILE *, AppData *);
 void removeChar(char *, char);
 void removeSpaces(char *);

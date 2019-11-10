@@ -7,6 +7,7 @@
 int parseIni(char *, char *, char *);
 void parsePlanificateur(FileConfig *, char *);
 void printIniToFile(FILE *, char *, char *);
+void printHtmlToFile(FILE *, char *);
 void printIniToString(char *, char *, char *);
 bool isSymbole(char *, char *);
 

@@ -38,6 +38,11 @@ void printIniToFile(FILE *file, char *key, char *value)
     fprintf(file, "%s=%s\n", key, value);
 }
 
+void printHtmlToFile(FILE *file, char *value)
+{
+    fprintf(file, "%s\n", value);
+}
+
 void printIniToString(char *str, char *key, char *value)
 {
     sprintf(str, "%s=%s", key, value);

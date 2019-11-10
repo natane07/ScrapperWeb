@@ -23,6 +23,14 @@ void initFolders(char *path)
     CreateDirectory(dirLocation, NULL);
 }
 
+void createDir(char *nameTache)
+{
+    char dirLocation[MAX_PATH_LENGTH];
+    sprintf(dirLocation, "%s\\%s\\%s", getenv(LOCALSTORAGE), MAIN_DIR, nameTache);
+    CreateDirectory(dirLocation, NULL);
+}
+
+
 void initConfigFile(char *path, List *settings)
 {
     FILE *config = NULL;
@@ -157,6 +165,19 @@ void saveConfigToFile(AppData *appData)
     if (fp != NULL)
     {
         printConfigFile(fp, appData);
+    }
+}
+
+void saveHtmlToFile(char *nameDir, char *nameAction, char *buffer)
+{
+    char fileLocation[MAX_PATH_LENGTH];
+    char nameFile[MAX_PATH_LENGTH];
+    sprintf(nameFile, "%s%s", nameAction, ".html");
+    sprintf(fileLocation, "%s\\%s\\%s", getenv(LOCALSTORAGE), MAIN_DIR, nameDir);
+    FILE *fp = openFile(fileLocation, nameFile, "w");
+    if (fp != NULL)
+    {
+        printHtmlToFile(fp, buffer);
     }
 }
 

@@ -23,6 +23,7 @@ typedef struct ActionList ActionList;
 typedef struct TacheList TacheList;
 typedef struct PlanificateurList PlanificateurList;
 typedef struct FileConfig FileConfig;
+typedef struct ReceivedHtml HttpResponse;
 
 
 struct Action
@@ -84,6 +85,12 @@ struct FileConfig
 {
     ActionList *actions;
     TacheList *taches;
+};
+
+struct ReceivedHtml
+{
+    char *buffer;
+    size_t position;
 };
 
 typedef enum {
