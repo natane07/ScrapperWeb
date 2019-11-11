@@ -15,6 +15,11 @@
 #define SETT_LASTNAME "lastName"
 #define SETT_ZIPCODE "zipCode"
 
+//Option
+#define OPTION_VERSIONING "versioning"
+#define OPTION_VERSIONING_ON "on"
+
+
 //PATHS
 #define LOCALSTORAGE "APPDATA"
 #define MAIN_DIR "scrapperWeb"

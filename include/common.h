@@ -23,5 +23,7 @@
 #include "httpScrapper.h"
 #include "curl/curl.h"
 #include <stdbool.h>
+#include <time.h>
+#include <unistd.h>
 
 #endif

@@ -29,7 +29,7 @@ void parsePlanificateur(FileConfig *fileConfig, char *content){
     { 
         //printf("%s\n", token);
         pushPlanificateurListToTache(fileConfig->taches, token);
-        token = strtok(NULL, "-");
+        token = strtok(NULL, ",");
     } 
 }
 

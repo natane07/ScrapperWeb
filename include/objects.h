@@ -71,6 +71,7 @@ struct Tache
     int hour;
     int minute;
     int seconde;
+    int currentTime;
     PlanificateurList *planificateurList;
     Tache *next;
 };

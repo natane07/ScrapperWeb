@@ -134,3 +134,21 @@ void printOptionList(OptionList *list)
     printf("List length: %d\n", list->length);
     puts("};");
 }
+
+bool isVersioning(OptionList *list){
+    if (list == NULL)
+        return false;
+    
+    Option *currentOption = list->first;
+    while (currentOption != NULL) //liste des Actions
+    {
+        if(strcmp(currentOption->optionId, OPTION_VERSIONING) == 0){
+            if(strcmp(currentOption->valueOption, OPTION_VERSIONING_ON) == 0)
+                return true;
+            else
+                return false;
+        }   
+        currentOption = currentOption->next;
+    }
+    return false;
+}

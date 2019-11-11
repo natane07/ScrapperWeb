@@ -129,57 +129,63 @@ int main()
     Tache *currentTache = fileConfig.taches->first;
     Planificateur *currentPlanificateur = currentTache->planificateurList->first;
     Action *currentAction = fileConfig.actions->first;
+    int currentTimeTache = 0;
+    int sommeTimeTache = 0;
+    int LOOP =0;
+    bool versioning = false;
+    char nameFile[MAX_PATH_LENGTH];
+    while (LOOP == 0){ // LOOP
     while (currentTache != NULL) //liste des taches
     {
-        //printf("Nom Tache %s \n",currentTache->name);
-
         while (currentPlanificateur != NULL) //liste des planificateurs
         {
             while (currentAction != NULL) //liste des Actions
             {
-                //printf("Nom action %s \n",currentAction->name);
-                //printf("Nom Planificateur %s \n",currentPlanificateur->nameTache);
-
                 if(strcmp(currentAction->name, currentPlanificateur->nameTache) == 0){
-                    printf("%s \n\n\n",currentAction->url);
-                    HttpResponse response = setHttpResponseBuffer(buffer);
-                    int code = httpGetHtml(currentAction->url, (void *)&response, curlCallbackHtml);
-                    if (!code)
-                    {
-                        createDir(currentTache->name);
-                        saveHtmlToFile(currentTache->name, currentAction->name, buffer);
-                        //printf("Buffer : %s", buffer);
+                    currentTimeTache = getCurrentTimeSec();
+                    sommeTimeTache = convertTimeInSec(currentTache->hour, currentTache->minute, currentTache->seconde) + currentTache->currentTime;
+                    if(currentTimeTache >= sommeTimeTache){
+                        printf("Nom Tache %s \n",currentTache->name);
+                        printf("%s \n\n\n",currentAction->url);
+                        HttpResponse response = setHttpResponseBuffer(buffer);
+                        int code = httpGetHtml(currentAction->url, (void *)&response, curlCallbackHtml);
+                        if (!code)
+                        {
+                            createDir(currentTache->name);
+                            versioning = isVersioning(currentAction->option);
+                            if(versioning == true){
+                                setNameFileWithVersioning(nameFile, currentAction->name);
+                                saveHtmlToFile(currentTache->name, nameFile, buffer);
+                                memset(nameFile, 0, sizeof (nameFile));
+                            }
+                            else{
+                                saveHtmlToFile(currentTache->name, currentAction->name, buffer);
+                            }
+                            //printf("Buffer : %s", buffer);
+                        }
+                        else {
+                            printf("fail HTPP");
+                        }
+                        memset(buffer, 0, sizeof (buffer));
                     }
-                    else {
-                        printf("fail HTPP");
-                    }
-                    memset(buffer, 0, sizeof (buffer));
                 }
-
                 currentAction = currentAction->next;
             }
             currentPlanificateur = currentPlanificateur->next;
             currentAction = fileConfig.actions->first;
         }
+        currentTimeTache = getCurrentTimeSec();
+        sommeTimeTache = convertTimeInSec(currentTache->hour, currentTache->minute, currentTache->seconde) + currentTache->currentTime;
+        if(currentTimeTache >= sommeTimeTache)
+            currentTache->currentTime = getCurrentTimeSec();
+
         currentTache = currentTache->next;
         if(currentTache != NULL)
             currentPlanificateur = currentTache->planificateurList->first;
     }
-    /*char dirLocation[MAX_PATH_LENGTH];
-    sprintf(dirLocation, "%s\\%s\\%s", path, MAIN_DIR, nameTache);
-    printf("\n\n\n");
-    printf("%s", dirLocation);*/
-
-    /*printf("HTTP REQUEST\n");
-    HttpResponse response = setHttpResponseBuffer(buffer);
-    int code = httpGetHtml(fileConfig.actions->first->url, (void *)&response, curlCallbackHtml);
-    printf("%i", code);
-    if (!code)
-    {
-        printf("Buffer : %s", buffer);
+    currentTache = fileConfig.taches->first;
+    currentPlanificateur = currentTache->planificateurList->first;
+    //sleep(1);
     }
-    else {
-        printf("fail HTPP");
-    }*/
     return 0;
 }

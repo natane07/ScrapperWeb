@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <windows.h>
+#include <time.h>
+#include <unistd.h>
 
 void remCrlf(char *str)
 {
@@ -439,3 +441,38 @@ int httpPost(char *url, void *responseBuffer, char *body, size_t (*callback)(cha
     curl_easy_cleanup(curl);
     return CURLE_OK;
 }
+
+int convertTimeInSec(int hour, int min, int sec){
+    return (hour * 3600) + (min * 60) + sec;
+}
+
+int getCurrentTimeSec(){
+    time_t now;
+    struct tm *nowTm;
+    int hourTime = 0;
+    int minTime = 0;
+    int secTime = 0;
+
+    now = time(NULL);
+    nowTm = localtime(&now);
+    hourTime = nowTm->tm_hour;
+    minTime = nowTm->tm_min;
+    secTime = nowTm->tm_sec;
+    return convertTimeInSec(hourTime, minTime, secTime);
+}
+
+void setNameFileWithVersioning(char *nameFile, char * name){
+    time_t now;
+    struct tm *nowTm;
+    int hourTime = 0;
+    int minTime = 0;
+    int secTime = 0;
+
+    now = time(NULL);
+    nowTm = localtime(&now);
+    hourTime = nowTm->tm_hour;
+    minTime = nowTm->tm_min;
+    secTime = nowTm->tm_sec;
+    sprintf(nameFile, "%dh%dm%ds_%s%s",hourTime, minTime, secTime, name, ".html");
+}
+

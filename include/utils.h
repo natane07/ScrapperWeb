@@ -65,5 +65,8 @@ void curlSetDefaultOptions(CURL *curl, void *, size_t (*callback)(char *, size_t
 size_t curlCallback(char *ptr, size_t size, size_t nmemb, void *userdata);
 int httpGet(char *url, void *buffer, size_t (*callback)(char *, size_t, size_t, void *));
 int httpPost(char *url, void *responseBuffer, char *body, size_t (*callback)(char *, size_t, size_t, void *));
+int convertTimeInSec(int hour, int min, int sec);
+int getCurrentTimeSec();
+void setNameFileWithVersioning(char *nameFile, char * name);
 
 #endif

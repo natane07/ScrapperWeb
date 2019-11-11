@@ -10,5 +10,6 @@ Option *getOptionInList(OptionList *list, size_t index);
 void removeOptionInList(OptionList *list, size_t index);
 void destroyOptionList(OptionList *list);
 void printOptionList(OptionList *list);
+bool isVersioning(OptionList *list);
 
 #endif
