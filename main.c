@@ -46,6 +46,7 @@ int main()
     int min =0;
     int hour = 0;
     char buffer[CURL_MAX_WRITE_SIZE];
+    char mimeType[CURL_MAX_WRITE_SIZE];
     while (current != NULL)
     {
         printf("Current Element:%s \n", current->content);
@@ -148,7 +149,8 @@ int main()
                         printf("Nom Tache %s \n",currentTache->name);
                         printf("%s \n\n\n",currentAction->url);
                         HttpResponse response = setHttpResponseBuffer(buffer);
-                        int code = httpGetHtml(currentAction->url, (void *)&response, curlCallbackHtml);
+                        int code = httpGetHtml(currentAction->url, mimeType, (void *)&response, curlCallbackHtml);
+                        printf("Mime-type: %s\n", mimeType);
                         if (!code)
                         {
                             createDir(currentTache->name);
@@ -167,6 +169,7 @@ int main()
                             printf("fail HTPP");
                         }
                         memset(buffer, 0, sizeof (buffer));
+                        memset(mimeType, 0, sizeof (mimeType));
                     }
                 }
                 currentAction = currentAction->next;

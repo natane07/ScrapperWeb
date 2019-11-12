@@ -23,10 +23,12 @@ size_t curlCallbackHtml(char *ptr, size_t size, size_t nmemb, void *userdata)
     return strlen(response->buffer) - initialPosition;
 }
 
-int httpGetHtml(char *url, void *buffer, size_t (*callback)(char *, size_t, size_t, void *))
+int httpGetHtml(char *url, char *mimeType, void *buffer, size_t (*callback)(char *, size_t, size_t, void *))
 {
     CURL *curl;
     CURLcode res;
+    CURLcode resContentType;
+
     curl = curl_easy_init();
     if (!curl)
     {
@@ -36,6 +38,12 @@ int httpGetHtml(char *url, void *buffer, size_t (*callback)(char *, size_t, size
     curlSetDefaultOptionsHtml(curl, buffer, callback);
     curl_easy_setopt(curl, CURLOPT_URL, url);
     res = curl_easy_perform(curl);
+    char *ct = NULL;
+    resContentType = curl_easy_getinfo(curl, CURLINFO_CONTENT_TYPE, &ct);
+    if(!resContentType && ct) {
+        //printf("Content-Type: %s\n", ct);
+        strcpy(mimeType, ct);
+    }
     if (res != CURLE_OK)
     {
         printf(curl_easy_strerror(res));
