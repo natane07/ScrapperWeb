@@ -20,6 +20,31 @@ int parseIni(char *content, char *key, char *value)
     return 1;
 }
 
+/*void parseMimeType(char *content, char* key, char *value){
+    char *token = strtok(content, "/");
+    strcpy(key, token);
+    while (token != NULL) 
+    { 
+        //printf("%s\n", token);
+        strcpy(value, token);
+        token = strtok(NULL, "/");
+    } 
+}*/
+
+int parseMimeType(char *content, char *key, char *value)
+{
+    char *pch;
+    pch = strchr(content, '/');
+    if (pch == NULL)
+    {
+        return 0;
+    }
+    strcpy(value, pch + 1);
+    strncpy(key, content, pch - content);
+    key[pch - content] = '\0';
+    return 1;
+}
+
 void parsePlanificateur(FileConfig *fileConfig, char *content){
     removeChar(content, '(');
     removeChar(content, ')'); 

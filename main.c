@@ -151,22 +151,41 @@ int main()
                         HttpResponse response = setHttpResponseBuffer(buffer);
                         int code = httpGetHtml(currentAction->url, mimeType, (void *)&response, curlCallbackHtml);
                         printf("Mime-type: %s\n", mimeType);
-                        if (!code)
-                        {
+                        char mimeTypeName[MAX_PATH_LENGTH];
+                        char extensionFile[MAX_PATH_LENGTH];
+                        parseMimeType(mimeType, mimeTypeName, extensionFile);
+
+                        if(strcmp(mimeTypeName, "image") == 0){
                             createDir(currentTache->name);
                             versioning = isVersioning(currentAction->option);
                             if(versioning == true){
-                                setNameFileWithVersioning(nameFile, currentAction->name);
-                                saveHtmlToFile(currentTache->name, nameFile, buffer);
-                                memset(nameFile, 0, sizeof (nameFile));
+                                setNameFileImageWithVersioning(nameFile, currentAction->name, extensionFile);
+                                downloadImage(currentAction->url, nameFile, currentTache->name, mimeType);
                             }
                             else{
-                                saveHtmlToFile(currentTache->name, currentAction->name, buffer);
+                                sprintf(nameFile, "%s%s%s", currentAction->name, ".", extensionFile);
+                                downloadImage(currentAction->url, nameFile, currentTache->name, mimeType);
                             }
-                            //printf("Buffer : %s", buffer);
+                            memset(nameFile, 0, sizeof (nameFile));
                         }
-                        else {
-                            printf("fail HTPP");
+                        else{
+                            if (!code)
+                            {
+                                createDir(currentTache->name);
+                                versioning = isVersioning(currentAction->option);
+                                if(versioning == true){
+                                    setNameFileWithVersioning(nameFile, currentAction->name);
+                                    saveHtmlToFile(currentTache->name, nameFile, buffer);
+                                    memset(nameFile, 0, sizeof (nameFile));
+                                }
+                                else{
+                                    saveHtmlToFile(currentTache->name, currentAction->name, buffer);
+                                }
+                                //printf("Buffer : %s", buffer);
+                            }
+                            else {
+                                printf("fail HTPP");
+                            }
                         }
                         memset(buffer, 0, sizeof (buffer));
                         memset(mimeType, 0, sizeof (mimeType));

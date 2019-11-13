@@ -40,5 +40,6 @@ void saveHtmlToFile(char *, char *, char *);
 void printConfigFile(FILE *, AppData *);
 void removeChar(char *, char);
 void removeSpaces(char *);
+void removeComment(char *str, char garbage);
 
 #endif

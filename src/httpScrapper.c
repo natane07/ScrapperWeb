@@ -42,9 +42,10 @@ int httpGetHtml(char *url, char *mimeType, void *buffer, size_t (*callback)(char
     resContentType = curl_easy_getinfo(curl, CURLINFO_CONTENT_TYPE, &ct);
     if(!resContentType && ct) {
         //printf("Content-Type: %s\n", ct);
+        removeComment(ct, ';');
         strcpy(mimeType, ct);
     }
-    if (res != CURLE_OK)
+    if (res != CURLE_OK && strcmp(mimeType, "image/jpeg") != 0)
     {
         printf(curl_easy_strerror(res));
         return res;
@@ -59,4 +60,30 @@ HttpResponse setHttpResponseBuffer(char *buffer)
     response.buffer = buffer;
     response.position = 0;
     return response;
+}
+
+void downloadImage(char *url, char *nameAction, char *nameTache, char *mimeType){
+    CURL *curl;
+    FILE *fp;
+    CURLcode res;
+    char fileLocation[MAX_PATH_LENGTH];
+    char nameFile[261];
+    sprintf(nameFile, "%s", nameAction);
+    printf("%s\n", nameFile);
+    sprintf(fileLocation, "%s\\%s\\%s", getenv(LOCALSTORAGE), MAIN_DIR, nameTache);
+    curl = curl_easy_init();                                                                                                                                                                                                                                                           
+    if (curl)
+    {   
+        fp = openFile(fileLocation, nameFile, "wb");
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, false);
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_easy_setopt(curl, CURLOPT_URL, url);
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, NULL);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, fp);
+        res = curl_easy_perform(curl);
+        if (res != CURLE_OK)
+            printf(curl_easy_strerror(res));
+        curl_easy_cleanup(curl);
+        fclose(fp);
+    }  
 }

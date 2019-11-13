@@ -68,5 +68,6 @@ int httpPost(char *url, void *responseBuffer, char *body, size_t (*callback)(cha
 int convertTimeInSec(int hour, int min, int sec);
 int getCurrentTimeSec();
 void setNameFileWithVersioning(char *nameFile, char * name);
+void setNameFileImageWithVersioning(char *nameFile, char * name, char *extansion);
 
 #endif

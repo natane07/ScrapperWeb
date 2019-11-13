@@ -476,3 +476,18 @@ void setNameFileWithVersioning(char *nameFile, char * name){
     sprintf(nameFile, "%dh%dm%ds_%s%s",hourTime, minTime, secTime, name, ".html");
 }
 
+void setNameFileImageWithVersioning(char *nameFile, char * name, char *extansion){
+    time_t now;
+    struct tm *nowTm;
+    int hourTime = 0;
+    int minTime = 0;
+    int secTime = 0;
+
+    now = time(NULL);
+    nowTm = localtime(&now);
+    hourTime = nowTm->tm_hour;
+    minTime = nowTm->tm_min;
+    secTime = nowTm->tm_sec;
+    sprintf(nameFile, "%dh%dm%ds_%s.%s",hourTime, minTime, secTime, name, extansion);
+}
+
