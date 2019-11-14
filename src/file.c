@@ -180,6 +180,7 @@ void saveHtmlToFile(char *nameDir, char *nameAction, char *buffer, char* extansi
     {
         printHtmlToFile(fp, buffer);
     }
+    fclose(fp);
 }
 
 
