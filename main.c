@@ -146,8 +146,8 @@ int main()
                     currentTimeTache = getCurrentTimeSec();
                     sommeTimeTache = convertTimeInSec(currentTache->hour, currentTache->minute, currentTache->seconde) + currentTache->currentTime;
                     if(currentTimeTache >= sommeTimeTache){
-                        printf("Nom Tache %s \n",currentTache->name);
-                        printf("%s \n\n\n",currentAction->url);
+                        printf("\nNom Tache %s \n",currentTache->name);
+                        printf("%s \n",currentAction->url);
                         HttpResponse response = setHttpResponseBuffer(buffer);
                         int code = httpGetHtml(currentAction->url, mimeType, (void *)&response, curlCallbackHtml);
                         printf("Mime-type: %s\n", mimeType);
@@ -166,7 +166,6 @@ int main()
                                 sprintf(nameFile, "%s%s%s", currentAction->name, ".", extensionFile);
                                 downloadImage(currentAction->url, nameFile, currentTache->name, mimeType);
                             }
-                            memset(nameFile, 0, sizeof (nameFile));
                         }
                         else{
                             if (!code)
@@ -175,11 +174,14 @@ int main()
                                 versioning = isVersioning(currentAction->option);
                                 if(versioning == true){
                                     setNameFileWithVersioning(nameFile, currentAction->name);
-                                    saveHtmlToFile(currentTache->name, nameFile, buffer);
-                                    memset(nameFile, 0, sizeof (nameFile));
+                                    saveHtmlToFile(currentTache->name, nameFile, buffer, extensionFile);
+                                    if(strcmp(extensionFile, "html") == 0)
+                                        saveBaliseToFile(currentAction->option, currentTache->name, nameFile, buffer, extensionFile);
                                 }
                                 else{
-                                    saveHtmlToFile(currentTache->name, currentAction->name, buffer);
+                                    saveHtmlToFile(currentTache->name, currentAction->name, buffer, extensionFile);
+                                    if(strcmp(extensionFile, "html") == 0)
+                                        saveBaliseToFile(currentAction->option, currentTache->name, currentAction->name, buffer, extensionFile);
                                 }
                                 //printf("Buffer : %s", buffer);
                             }
@@ -187,6 +189,7 @@ int main()
                                 printf("fail HTPP");
                             }
                         }
+                        memset(nameFile, 0, sizeof (nameFile));
                         memset(buffer, 0, sizeof (buffer));
                         memset(mimeType, 0, sizeof (mimeType));
                     }

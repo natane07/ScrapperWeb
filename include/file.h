@@ -18,6 +18,7 @@
 //Option
 #define OPTION_VERSIONING "versioning"
 #define OPTION_VERSIONING_ON "on"
+#define OPTION_TYPE_BALISE "type"
 
 
 //PATHS
@@ -36,10 +37,14 @@ void applySettings(List *, AppData *);
 void applySetting(char *, void *);
 void getFileContent(List *, int, int, FILE *);
 void saveConfigToFile(AppData *appData);
-void saveHtmlToFile(char *, char *, char *);
+void saveHtmlToFile(char *, char *, char *, char*);
+void saveBaliseToFile(OptionList *list, char *nameDir, char *nameAction, char *buffer, char* extansion);
 void printConfigFile(FILE *, AppData *);
 void removeChar(char *, char);
 void removeSpaces(char *);
 void removeComment(char *str, char garbage);
-
+char *constructStrLeft(char* opt);
+char *constructStrRight(char* opt);
+int getLink(char* string);
+int getStringBetweenDelimiters(char* string, char* par, char* nameFile, char* fileLocation);
 #endif

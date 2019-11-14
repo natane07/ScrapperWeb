@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stddef.h>
 #include <io.h>
 
 void initFs(AppData *appData)
@@ -168,16 +169,36 @@ void saveConfigToFile(AppData *appData)
     }
 }
 
-void saveHtmlToFile(char *nameDir, char *nameAction, char *buffer)
+void saveHtmlToFile(char *nameDir, char *nameAction, char *buffer, char* extansion)
 {
     char fileLocation[MAX_PATH_LENGTH];
     char nameFile[MAX_PATH_LENGTH];
-    sprintf(nameFile, "%s%s", nameAction, ".html");
+    sprintf(nameFile, "%s.%s", nameAction, extansion);
     sprintf(fileLocation, "%s\\%s\\%s", getenv(LOCALSTORAGE), MAIN_DIR, nameDir);
     FILE *fp = openFile(fileLocation, nameFile, "w");
     if (fp != NULL)
     {
         printHtmlToFile(fp, buffer);
+    }
+}
+
+
+
+void saveBaliseToFile(OptionList *list, char *nameDir, char *nameAction, char *buffer, char* extansion){
+    if (list == NULL)
+        return;
+    
+    char fileLocation[MAX_PATH_LENGTH];
+    char nameFile[MAX_PATH_LENGTH];
+    sprintf(fileLocation, "%s\\%s\\%s", getenv(LOCALSTORAGE), MAIN_DIR, nameDir);
+    Option *currentOption = list->first;
+    while (currentOption != NULL) //liste des options
+    {
+        if(strcmp(currentOption->optionId, OPTION_TYPE_BALISE) == 0){
+            sprintf(nameFile, "%s_Balise_%s.%s", nameAction, currentOption->valueOption, extansion);
+            getStringBetweenDelimiters(buffer, currentOption->valueOption, nameFile, fileLocation);
+        }   
+        currentOption = currentOption->next;
     }
 }
 
@@ -203,3 +224,120 @@ void printConfigFile(FILE *fp, AppData *appData)
     }
     fclose(fp);
 }
+
+char *constructStrLeft(char* opt){
+  char *construct=malloc(strlen(opt)+2);
+  char* str="<";
+  strcpy(construct,str);
+  strcat(construct,opt);
+  return construct;
+
+  
+} 
+ 
+char *constructStrRight(char* opt){
+  char *construct=malloc(strlen(opt)+3);
+  char* str="<";
+  strcpy(construct,str);
+  strcat(construct,"/");
+  strcat(construct,opt);
+  strcat(construct,">");
+  return construct;
+
+  
+} 
+
+int getLink(char* string)
+{
+     char *out;
+     char *leftDelimiter="href=\"";
+     char *rightDelimiter="\"";
+     FILE* fichier = NULL;
+     char* beginning = strstr(string, leftDelimiter);
+     string = beginning;
+     string +=strlen(leftDelimiter);
+     if(beginning == NULL){
+        return 1; 
+     }
+     char* end = strstr(string, rightDelimiter);
+     if(end == NULL){
+       return 2;
+     }
+     beginning += strlen(leftDelimiter);
+ 
+     while (beginning!=NULL && end!=NULL){
+     ptrdiff_t segmentLength = end - beginning;
+     out = malloc(segmentLength + 1);
+     strncpy(out, beginning, segmentLength);
+     out[segmentLength] = 0;
+     fichier = fopen("links.txt", "a+"); //specifier variable fichier :)
+     if (fichier != NULL){
+        fputs(out, fichier);
+        fputs("\n", fichier);
+        fclose(fichier);
+     }
+     beginning = strstr(string, leftDelimiter);
+     if(beginning == NULL){
+        break;
+     }
+     beginning=beginning+strlen(leftDelimiter);
+     string = beginning;
+     end = strstr(string, rightDelimiter);
+	   if(end == NULL){
+        break;
+	   }
+}
+    return 0;
+}                              
+
+
+int getStringBetweenDelimiters(char* string, char* par, char* nameFile, char* fileLocation)
+{
+     char *rightDelimiter=constructStrRight(par);
+     char *leftDelimiter=constructStrLeft(par);
+     char* out;
+     FILE* fichier = NULL;
+     char* beginning = strstr(string, leftDelimiter);
+      if(beginning == NULL){
+        return 1; 
+     }
+     string = beginning;
+     string +=strlen(leftDelimiter);
+    
+     char* end = strstr(string, rightDelimiter);
+     if(end == NULL){
+       return 2;
+     }
+    beginning = strstr(string, ">");
+    beginning += 1; //fermeture chevron
+    string = beginning;
+
+     while (beginning!=NULL && end!=NULL){
+     ptrdiff_t segmentLength = end - beginning;
+     out = malloc(segmentLength + 1);
+     strncpy(out, beginning, segmentLength);
+     out[segmentLength] = 0;
+     fichier = openFile(fileLocation, nameFile, "a+"); //specifier variable fichier :)
+     if (fichier != NULL){
+        fputs(out, fichier);
+        fputs("\n", fichier);
+        fclose(fichier);
+     }
+     beginning = strstr(string, leftDelimiter);
+     if(beginning == NULL){
+        break;
+     }
+     beginning=beginning+strlen(leftDelimiter);
+     string = beginning;
+     
+     beginning=strstr(string,">")+1; //fermeture chevron
+     string = beginning;
+     
+     end = strstr(string, rightDelimiter);
+	   if(end == NULL){
+        break;
+	   }
+}
+    
+    return 0;
+}   

@@ -69,7 +69,7 @@ void downloadImage(char *url, char *nameAction, char *nameTache, char *mimeType)
     char fileLocation[MAX_PATH_LENGTH];
     char nameFile[261];
     sprintf(nameFile, "%s", nameAction);
-    printf("%s\n", nameFile);
+    //printf("%s\n", nameFile);
     sprintf(fileLocation, "%s\\%s\\%s", getenv(LOCALSTORAGE), MAIN_DIR, nameTache);
     curl = curl_easy_init();                                                                                                                                                                                                                                                           
     if (curl)

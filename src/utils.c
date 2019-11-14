@@ -473,7 +473,7 @@ void setNameFileWithVersioning(char *nameFile, char * name){
     hourTime = nowTm->tm_hour;
     minTime = nowTm->tm_min;
     secTime = nowTm->tm_sec;
-    sprintf(nameFile, "%dh%dm%ds_%s%s",hourTime, minTime, secTime, name, ".html");
+    sprintf(nameFile, "%dh%dm%ds_%s",hourTime, minTime, secTime, name);
 }
 
 void setNameFileImageWithVersioning(char *nameFile, char * name, char *extansion){
