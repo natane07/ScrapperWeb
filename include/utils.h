@@ -18,5 +18,5 @@ int convertTimeInSec(int hour, int min, int sec);
 int getCurrentTimeSec();
 void setNameFileWithVersioning(char *nameFile, char * name);
 void setNameFileImageWithVersioning(char *nameFile, char * name, char *extansion);
-
+void freeFileconfig(FileConfig *fileConfig);
 #endif

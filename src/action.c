@@ -110,6 +110,7 @@ void destroyActionList(ActionList *list)
     Action *tmp = NULL;
     while (current != NULL)
     {
+        destroyOptionList(current->option);
         tmp = current->next;
         free(current);
         current = tmp;

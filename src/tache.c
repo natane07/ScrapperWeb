@@ -112,6 +112,7 @@ void destroyTacheList(TacheList *list)
     Tache *tmp = NULL;
     while (current != NULL)
     {
+        destroyPlanificateurList(current->planificateurList);
         tmp = current->next;
         free(current);
         current = tmp;

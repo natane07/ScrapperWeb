@@ -106,3 +106,8 @@ void setNameFileImageWithVersioning(char *nameFile, char * name, char *extansion
     sprintf(nameFile, "%dh%dm%ds_%s.%s",hourTime, minTime, secTime, name, extansion);
 }
 
+void freeFileconfig(FileConfig *fileConfig)
+{
+    destroyActionList(fileConfig->actions);
+    destroyTacheList(fileConfig->taches);
+}

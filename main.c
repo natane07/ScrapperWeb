@@ -21,7 +21,7 @@ int main()
     char value[MAX_SETTING_LENGTH];
     char nameAction[MAX_SETTING_LENGTH];
     char nameTache[MAX_SETTING_LENGTH];
-    char urlAction[3000];
+    char urlAction[MAX_STRING];
     int sec =0;
     int min =0;
     int hour = 0;
@@ -192,5 +192,6 @@ int main()
     currentPlanificateur = currentTache->planificateurList->first;
     sleep(1);
     }
+    freeFileconfig(fileConfig);
     return 0;
 }
