@@ -192,6 +192,6 @@ int main()
     currentPlanificateur = currentTache->planificateurList->first;
     sleep(1);
     }
-    freeFileconfig(fileConfig);
+    freeFileconfig(&fileConfig);
     return 0;
 }
