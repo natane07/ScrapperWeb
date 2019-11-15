@@ -6,17 +6,6 @@
 #include <stddef.h>
 #include <io.h>
 
-void initFs(AppData *appData)
-{
-    char path[MAX_PATH_LENGTH];
-    List *settings = listInit();
-    sprintf(path, "%s", getenv(LOCALSTORAGE));
-    initFolders(path);
-    initConfigFile(path, settings);
-    applySettings(settings, appData);
-    destroyList(settings);
-}
-
 void initFolders(char *path)
 {
     char dirLocation[MAX_PATH_LENGTH];
@@ -43,14 +32,6 @@ void initConfigFile(char *path, List *settings)
             getFileContent(settings, MAX_SETTING_LENGTH, MIN_SETTING_LENGTH, config);
         }
     }
-    /*else
-    {
-        config = openFile(path, CONFIG_FILE, "w");
-        if (config != NULL)
-        {
-            printConfigFile(config, NULL);
-        }
-    }*/
 }
 
 int fileExists(char *basePath, char *filePath)
@@ -71,46 +52,6 @@ FILE *openFile(char *basePath, char *filePath, char *mode)
     return file;
 }
 
-void applySettings(List *settings, AppData *appData)
-{
-    forEach(settings, applySetting, appData);
-}
-
-void applySetting(char *content, void *data)
-{
-    AppData *appData = data;
-    char key[MAX_SETTING_LENGTH];
-    char value[MAX_SETTING_LENGTH];
-    int ok;
-    ok = parseIni(content, key, value);
-    if (ok)
-    {
-        if (strcmp(key, SETT_ADDR) == 0)
-        {
-            appData->address = setString(appData->address, value);
-        }
-        else if (strcmp(key, SETT_MAIL) == 0)
-        {
-            appData->mail = setString(appData->mail, value);
-        }
-        else if (strcmp(key, SETT_PHONE) == 0)
-        {
-            appData->phone = setString(appData->phone, value);
-        }
-        else if (strcmp(key, SETT_FIRSTNAME) == 0)
-        {
-            appData->firstName = setString(appData->firstName, value);
-        }
-        else if (strcmp(key, SETT_LASTNAME) == 0)
-        {
-            appData->lastName = setString(appData->lastName, value);
-        }
-        else if (strcmp(key, SETT_ZIPCODE) == 0)
-        {
-            appData->zipCode = setString(appData->zipCode, value);
-        }
-    }
-}
 void removeChar(char *str, char garbage) {
 
     char *src, *dst;
@@ -132,7 +73,6 @@ void removeComment(char *str, char garbage){
 void removeSpaces(char *str) 
 { 
     int count = 0; 
-
     for (int i = 0; str[i]; i++){
         if (str[i] != ' ') 
             str[count++] = str[i];
@@ -160,15 +100,6 @@ void getFileContent(List *storage, int bufferSize, int minLength, FILE *fp)
     free(buffer);
 }
 
-void saveConfigToFile(AppData *appData)
-{
-    FILE *fp = openFile(getenv(LOCALSTORAGE), CONFIG_FILE, "w");
-    if (fp != NULL)
-    {
-        printConfigFile(fp, appData);
-    }
-}
-
 void saveHtmlToFile(char *nameDir, char *nameAction, char *buffer, char* extansion)
 {
     char fileLocation[MAX_PATH_LENGTH];
@@ -182,8 +113,6 @@ void saveHtmlToFile(char *nameDir, char *nameAction, char *buffer, char* extansi
     }
     fclose(fp);
 }
-
-
 
 void saveBaliseToFile(OptionList *list, char *nameDir, char *nameAction, char *buffer, char* extansion){
     if (list == NULL)
@@ -203,28 +132,25 @@ void saveBaliseToFile(OptionList *list, char *nameDir, char *nameAction, char *b
     }
 }
 
-void printConfigFile(FILE *fp, AppData *appData)
+void setFileConfig(FileConfig *fileConfig)
 {
-    if (appData == NULL)
-    {
-        printIniToFile(fp, SETT_ADDR, "");
-        printIniToFile(fp, SETT_MAIL, "");
-        printIniToFile(fp, SETT_PHONE, "");
-        printIniToFile(fp, SETT_FIRSTNAME, "");
-        printIniToFile(fp, SETT_LASTNAME, "");
-        printIniToFile(fp, SETT_ZIPCODE, "");
-    }
-    else
-    {
-        printIniToFile(fp, SETT_ADDR, appData->address);
-        printIniToFile(fp, SETT_MAIL, appData->mail);
-        printIniToFile(fp, SETT_PHONE, appData->phone);
-        printIniToFile(fp, SETT_FIRSTNAME, appData->firstName);
-        printIniToFile(fp, SETT_LASTNAME, appData->lastName);
-        printIniToFile(fp, SETT_ZIPCODE, appData->zipCode);
-    }
-    fclose(fp);
+    fileConfig->actions = makeActionList();
+    fileConfig->taches = makeTacheList();
 }
+
+/*void parseStringConfig(char * content, char *key, char *value){
+    char * pch;
+    pch = strtok (content,"->");
+    while (pch != NULL)
+    {
+        strcpy(key, pch);
+        printf("Key:%s\n",key);
+        pch = strtok (NULL, "->");
+        strncpy(value, content, pch - content);
+        value[pch - content] = '\0';
+        printf("Value:%s\n",value);
+    }
+}*/
 
 char *constructStrLeft(char* opt){
   char *construct=malloc(strlen(opt)+2);
@@ -232,8 +158,6 @@ char *constructStrLeft(char* opt){
   strcpy(construct,str);
   strcat(construct,opt);
   return construct;
-
-  
 } 
  
 char *constructStrRight(char* opt){
@@ -244,8 +168,6 @@ char *constructStrRight(char* opt){
   strcat(construct,opt);
   strcat(construct,">");
   return construct;
-
-  
 } 
 
 int getLink(char* string)
@@ -313,7 +235,7 @@ int getStringBetweenDelimiters(char* string, char* par, char* nameFile, char* fi
     beginning += 1; //fermeture chevron
     string = beginning;
 
-     while (beginning!=NULL && end!=NULL){
+    while (beginning!=NULL && end!=NULL){
      ptrdiff_t segmentLength = end - beginning;
      out = malloc(segmentLength + 1);
      strncpy(out, beginning, segmentLength);
@@ -338,7 +260,7 @@ int getStringBetweenDelimiters(char* string, char* par, char* nameFile, char* fi
 	   if(end == NULL){
         break;
 	   }
-}
+    }
     
     return 0;
 }   

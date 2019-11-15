@@ -7,19 +7,10 @@
 #include "objects.h"
 #include "list.h"
 
-//settings
-#define SETT_PHONE "phone"
-#define SETT_MAIL "mail"
-#define SETT_ADDR "address"
-#define SETT_FIRSTNAME "firstName"
-#define SETT_LASTNAME "lastName"
-#define SETT_ZIPCODE "zipCode"
-
 //Option
 #define OPTION_VERSIONING "versioning"
 #define OPTION_VERSIONING_ON "on"
 #define OPTION_TYPE_BALISE "type"
-
 
 //PATHS
 #define LOCALSTORAGE "APPDATA"
@@ -27,19 +18,14 @@
 #define CONFIG_FILE "scrapperWeb\\scrapperWeb.sconf"
 
 
-void initFs(AppData *);
 void initFolders(char *);
 void createDir(char *);
 void initConfigFile(char *, List *);
 int fileExists(char *, char *);
 FILE *openFile(char *, char *, char *);
-void applySettings(List *, AppData *);
-void applySetting(char *, void *);
 void getFileContent(List *, int, int, FILE *);
-void saveConfigToFile(AppData *appData);
 void saveHtmlToFile(char *, char *, char *, char*);
 void saveBaliseToFile(OptionList *list, char *nameDir, char *nameAction, char *buffer, char* extansion);
-void printConfigFile(FILE *, AppData *);
 void removeChar(char *, char);
 void removeSpaces(char *);
 void removeComment(char *str, char garbage);
@@ -47,4 +33,5 @@ char *constructStrLeft(char* opt);
 char *constructStrRight(char* opt);
 int getLink(char* string);
 int getStringBetweenDelimiters(char* string, char* par, char* nameFile, char* fileLocation);
+void setFileConfig(FileConfig *fileConfig);
 #endif

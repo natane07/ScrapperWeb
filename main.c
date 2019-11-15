@@ -1,25 +1,5 @@
 #include "common.h"
 
-void parseStringConfig(char * content, char *key, char *value){
-    char * pch;
-    pch = strtok (content,"->");
-    while (pch != NULL)
-    {
-        strcpy(key, pch);
-        printf("Key:%s\n",key);
-        pch = strtok (NULL, "->");
-        strncpy(value, content, pch - content);
-        value[pch - content] = '\0';
-        printf("Value:%s\n",value);
-    }
-}
-
-void setFileConfig(FileConfig *fileConfig)
-{
-    fileConfig->actions = makeActionList();
-    fileConfig->taches = makeTacheList();
-}
-
 int main()
 {
     char path[MAX_PATH_LENGTH];
